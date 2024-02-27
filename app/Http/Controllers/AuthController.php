@@ -20,13 +20,6 @@ class AuthController extends Controller
 
         $user = User::where('Email', $data['Email'])->first();
 
-        // if (Auth::attempt($data)) {
-        //     return response()->json([
-        //         'message' => 'Login berhasil!',
-        //         'user' => Auth::user(),
-        //     ], 200);
-        // }
-
         if ($data['Email'] && Hash::check($data['Password'], $user->Password)) {
             // $request->session()->regenerate();
 
