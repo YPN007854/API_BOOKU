@@ -66,7 +66,8 @@ class UserController extends Controller
                 "Password" => "string",
                 "Alamat" => "string"
             ]);
- 
+    
+            
             $userUpdate = User::where('UserID', $id)->first()->update($data);
 
             if($userUpdate == true){
@@ -75,6 +76,7 @@ class UserController extends Controller
                     "data" => $data,
                 ], 201);
             }
+
         }catch(Exception $e){
             return response()->json([
                 'message' => 'Internal server error',
