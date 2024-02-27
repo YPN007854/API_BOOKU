@@ -66,13 +66,15 @@ class UserController extends Controller
                 "Password" => "string",
                 "Alamat" => "string"
             ]);
-    
-            User::where('UserID', $id)->update($data);
-    
-            return response()->json([
-                "message" => "Update successfully",
-                "data" => $data,
-            ], 201);
+ 
+            $userUpdate = User::where('UserID', $id)->first()->update($data);
+
+            if($userUpdate == true){
+                return response()->json([
+                    "message" => "Update successfully",
+                    "data" => $data,
+                ], 201);
+            }
         }catch(Exception $e){
             return response()->json([
                 'message' => 'Internal server error',

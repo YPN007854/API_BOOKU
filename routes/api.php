@@ -3,6 +3,7 @@
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BukuController;
+use App\Http\Controllers\KoleksiPribadiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,8 +19,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::resource('/user',UserController::class);
+Route::resource('/koleksi',KoleksiPribadiController::class);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register',[AuthController::class,'register']);
 Route::resource('/buku',BukuController::class);
-//Route::patch('/user/{id}', [UserController::class, 'update']);//
+// Route::patch('/user/{id}', [UserController::class, 'update']);
 
