@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\KoleksiPribadi;
 use App\Http\Requests\StoreKoleksiPribadiRequest;
 use App\Http\Requests\UpdateKoleksiPribadiRequest;
+use Exception;
+use Illuminate\Support\Facades\Request;
 
 class KoleksiPribadiController extends Controller
 {
@@ -13,11 +15,18 @@ class KoleksiPribadiController extends Controller
      */
     public function index()
     {
-        $buku = Buku::all();
+     try{
+        $buku = KoleksiPribadi::with(["bukus", 'users'])->get();
         $res = [
             'data' => $buku
         ];
         return response()->json($res, 200); 
+     }catch(Exception $e){
+        return response()->json([
+            'message' => "Internal server error",
+            'error' => $e
+        ], 500);
+     }
     }
 
     /**
@@ -33,7 +42,16 @@ class KoleksiPribadiController extends Controller
      */
     public function store(StoreKoleksiPribadiRequest $request)
     {
-        //
+        $data = $request->validate([
+            "userid" => "required",
+            "bukuid" => "required"
+        ]);
+        $newuser = KoleksiPribadi::create($data);
+        $res = [
+            'message' => 'succes create data',
+            'data' => $newuser
+        ];
+        return response()->json($res);
     }
 
     /**
@@ -41,7 +59,19 @@ class KoleksiPribadiController extends Controller
      */
     public function show(KoleksiPribadi $koleksiPribadi)
     {
-        //
+        try {
+
+            $koleksi = KoleksiPribadi::all()->find('koleksiid', $koleksiPribadi->koleksiid);
+            $res = [
+                'data' => $koleksi
+            ];
+            return response()->json($res);
+        } catch(Exception $e) {
+            return response()->json([
+                'message' => "Internal server error",
+                'error' => $e
+            ], 500);
+        }
     }
 
     /**
@@ -63,8 +93,11 @@ class KoleksiPribadiController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(KoleksiPribadi $koleksiPribadi)
+    public function destroy(Request $request, $id)
     {
-        //
+        KoleksiPribadi::where('koleksiid', $id)->delete();
+        return response()->json([
+            'message' => "Delete koleksi successfully",
+        ]);
     }
 }

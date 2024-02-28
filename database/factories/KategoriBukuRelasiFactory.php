@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\KoleksiPribadi>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\KategoriBukuRelasi>
  */
-class KoleksiPribadiFactory extends Factory
+class KategoriBukuRelasiFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,7 +18,7 @@ class KoleksiPribadiFactory extends Factory
     {
         return [
             'bukuid' => mt_rand(1,10),
-            'userid' => mt_rand(1,10)
+            'kategoriid' => mt_rand(1,10)
         ];
     }
 }

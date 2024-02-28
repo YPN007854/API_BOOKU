@@ -7,17 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class KoleksiPribadi extends Model
+class KategoriBuku extends Model
 {
     use HasFactory;
-
-    protected $primaryKey = 'koleksiid';
-    protected $guarded = ['koleksiid'];
-    protected $table = 'koleksi_pribadis';
+    protected $primaryKey = 'kategoriid';
+    protected $guarded = ['kategoriid'];
+    protected $table = 'kategori_bukus';
 
     protected $fillable = [
-        'userid',
         'bukuid',
+        'nama_kategori',
     ];
 
     public function bukus(): BelongsTo
@@ -25,8 +24,9 @@ class KoleksiPribadi extends Model
         return $this->belongsTo(Buku::class, 'bukuid');
     }
 
-    public function users(): BelongsTo
+    public function kategori_buku_relasis(): BelongsTo
     {
-        return $this->belongsTo(KoleksiPribadi::class, 'userid');
+        return $this->belongsTo(Buku::class, 'kategori_bukuid');
     }
+
 }

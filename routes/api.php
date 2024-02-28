@@ -3,7 +3,9 @@
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BukuController;
+use App\Http\Controllers\KategoriBukuRelasiController;
 use App\Http\Controllers\KoleksiPribadiController;
+use App\Models\KategoriBukuRelasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::resource('/user',UserController::class);
 Route::resource('/koleksi',KoleksiPribadiController::class);
+Route::resource('/kategoribukurelasi',KategoriBukuRelasiController::class);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register',[AuthController::class,'register']);
 Route::resource('/buku',BukuController::class);
