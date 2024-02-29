@@ -13,18 +13,9 @@ return new class extends Migration
     {
         Schema::create('kategori_bukus', function (Blueprint $table) {
             $table->id('kategoriid');
-            $table->unsignedBigInteger('bukuid');
             $table->string('nama_kategori');
-            $table->foreign('bukuid')->references('bukuid')->on('bukus');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
-    {
-        Schema::dropIfExists('kategori_bukus');
-    }
 };

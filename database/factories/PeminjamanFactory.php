@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\KategoriBuku>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Peminjaman>
  */
-class KategoriBukuFactory extends Factory
+class PeminjamanFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,7 @@ class KategoriBukuFactory extends Factory
     public function definition(): array
     {
         return [
-            'nama_kategori' => $this->faker->firstName()
+            //
         ];
     }
 }

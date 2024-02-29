@@ -15,18 +15,7 @@ class KategoriBuku extends Model
     protected $table = 'kategori_bukus';
 
     protected $fillable = [
-        'bukuid',
         'nama_kategori',
     ];
-
-    public function bukus(): BelongsTo
-    {
-        return $this->belongsTo(Buku::class, 'bukuid');
-    }
-
-    public function kategori_buku_relasis(): BelongsTo
-    {
-        return $this->belongsTo(Buku::class, 'kategori_bukuid');
-    }
 
 }
