@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Peminjaman;
-use App\Http\Requests\StorePeminjamanRequest;
-use App\Http\Requests\UpdatePeminjamanRequest;
+use App\Models\Riwayat;
+use App\Http\Requests\StoreRiwayatRequest;
+use App\Http\Requests\UpdateRiwayatRequest;
 use Exception;
 use Illuminate\Http\Request;
 
-class PeminjamanController extends Controller
+class RiwayatController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class PeminjamanController extends Controller
     public function index()
     {
         try{
-            $buku = Peminjaman::with(["bukus", 'users'])->get();
+            $buku = Riwayat::with(['peminjamans'])->get();
             $res = [
                 'data' => $buku
             ];
@@ -40,22 +40,9 @@ class PeminjamanController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRiwayatRequest $request)
     {
-        $data = $request->validate([
-            "userid" => "required",
-            "bukuid" => "required",
-            "tanggal_peminjaman" => "required",
-            "tanggal_pengembalian" => "required",
-
-            
-        ]);
-        $newuser = Peminjaman::create($data);
-        $res = [
-            'message' => 'succes create data',
-            'data' => $newuser
-        ];
-        return response()->json($res);
+        //
     }
 
     /**
@@ -64,7 +51,7 @@ class PeminjamanController extends Controller
     public function show($id)
     {
         try {
-            $user = Peminjaman::all()->find($id);
+            $user = Riwayat::all()->find($id);
             $res = [
                 'data' => $user
             ];
@@ -78,7 +65,7 @@ class PeminjamanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Peminjaman $peminjaman)
+    public function edit(Riwayat $riwayat)
     {
         //
     }
@@ -86,9 +73,9 @@ class PeminjamanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRiwayatRequest $request, Riwayat $riwayat)
     {
-       //
+        //
     }
 
     /**
@@ -96,9 +83,9 @@ class PeminjamanController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        Peminjaman::where('peminjamanid', $id)->delete();
+        Riwayat::where('riwayatid', $id)->delete();
         return response()->json([
-            'message' => "Delete peminjaman successfully",
+            'message' => "Delete riwayat successfully",
         ]);
     }
 }

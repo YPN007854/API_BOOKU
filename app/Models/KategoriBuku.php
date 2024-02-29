@@ -18,4 +18,8 @@ class KategoriBuku extends Model
         'nama_kategori',
     ];
 
+    public function kategori_buku_relasis(): HasMany
+    {
+        return $this->hasMany(KategoriBukuRelasi::class, 'kategori_bukuid');
+    }
 }

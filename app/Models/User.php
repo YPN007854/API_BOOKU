@@ -51,8 +51,20 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
     
-    public function koleksi(): BelongsTo
+    public function koleksi_pribadis(): BelongsTo
     {
         return $this->belongsTo(KoleksiPribadi::class);
     }
+
+    public function peminjamans(): HasMany
+    {
+        return $this->hasMany(Peminjaman::class, 'peminjamanid');
+    }
+
+    public function ulasan_bukus(): HasMany
+    {
+        return $this->hasMany(UlasanBuku::class, 'ulasanid');
+    }
+
+    
 }

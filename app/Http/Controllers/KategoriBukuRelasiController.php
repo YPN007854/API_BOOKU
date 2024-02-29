@@ -89,7 +89,7 @@ class KategoriBukuRelasiController extends Controller
     {
         KategoriBukuRelasi::where('kategori_bukuid', $id)->delete();
         return response()->json([
-            'message' => "Delete koleksi successfully",
+            'message' => "Delete kategori buku successfully",
         ]);
     }
 }

@@ -2,26 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\KategoriBuku;
-use App\Http\Requests\StoreKategoriBukuRequest;
-use App\Http\Requests\UpdateKategoriBukuRequest;
+use App\Models\UlasanBuku;
+use App\Http\Requests\StoreUlasanBukuRequest;
+use App\Http\Requests\UpdateUlasanBukuRequest;
 use Exception;
 use Illuminate\Http\Request;
 
-
-
-class KategoriBukuController extends Controller
+class UlasanBukuController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $buku = KategoriBuku::all();
-        $res = [
-            'data' => $buku
-        ];
-        return response()->json($res, 200);
+        try{
+            $buku = UlasanBuku::with(['users','bukus'])->get();
+            $res = [
+                'data' => $buku
+            ];
+            return response()->json($res, 200); 
+         }catch(Exception $e){
+            return response()->json([
+                'message' => "Internal server error",
+                'error' => $e
+            ], 500);
+         }
     }
 
     /**
@@ -37,19 +42,20 @@ class KategoriBukuController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $data = $request->validate([
-                "nama_kategori" => "required"
-            ]);
-            $newuser = KategoriBuku::create($data);
-            $res = [
-                'message' => 'succes create data',
-                'data' => $newuser
-            ];
-            return response()->json($res, 201);
-        } catch (Exception $e) {
-            return response()->json($e, 500);
-        }
+        $data = $request->validate([
+            "userid" => "required",
+            "bukuid" => "required",
+            "ulasan" => "required",
+            "rating" => "required",
+
+            
+        ]);
+        $newuser = UlasanBuku::create($data);
+        $res = [
+            'message' => 'succes create data',
+            'data' => $newuser
+        ];
+        return response()->json($res);
     }
 
     /**
@@ -58,7 +64,7 @@ class KategoriBukuController extends Controller
     public function show($id)
     {
         try {
-            $user = KategoriBuku::all()->find($id);
+            $user = UlasanBuku::all()->find($id);
             $res = [
                 'data' => $user
             ];
@@ -72,7 +78,7 @@ class KategoriBukuController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(KategoriBuku $kategoriBuku)
+    public function edit(UlasanBuku $ulasanBuku)
     {
         //
     }
@@ -84,11 +90,14 @@ class KategoriBukuController extends Controller
     {
         try{
             $data = $request->validate([
-                "nama_kategori" => "string"
+                "bukuid" => "string",
+                "userid" => "string",
+                "ulasan" => "string",
+                "rating" => "string"
             ]);
     
             
-            $userUpdate = KategoriBuku::where('kategoriid', $id)->first()->update($data);
+            $userUpdate = UlasanBuku::where('ulasanid', $id)->first()->update($data);
 
             if($userUpdate == true){
                 return response()->json([
@@ -110,9 +119,9 @@ class KategoriBukuController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        KategoriBuku::where('kategoriid', $id)->delete();
+        UlasanBuku::where('ulasanid', $id)->delete();
         return response()->json([
-            'message' => "Delete kategori successfully",
+            'message' => "Delete ulasan successfully",
         ]);
     }
 }

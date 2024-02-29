@@ -21,13 +21,23 @@ class Buku extends Model
         'tahun_terbit'
     ];
 
-    public function koleksi(): HasMany
+    public function koleksi_pribadis(): HasMany
     {
         return $this->hasMany(KoleksiPribadi::class);
     }
 
-    public function kategori(): HasMany
+    public function peminjamans(): HasMany
     {
-        return $this->hasMany(KoleksiPribadi::class);
+        return $this->hasMany(Peminjaman::class);
+    }
+
+    public function kategori_bukus(): HasMany
+    {
+        return $this->hasMany(KategoriBuku::class);
+    }
+
+    public function ulasan_bukus(): BelongsTo
+    {
+        return $this->belongsTo(UlasanBuku::class, 'ulasanid');
     }
 }

@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Peminjaman>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\UlasanBuku>
  */
-class PeminjamanFactory extends Factory
+class UlasanBukuFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,8 +19,8 @@ class PeminjamanFactory extends Factory
         return [
             'bukuid' => mt_rand(1,10),
             'userid' => mt_rand(1,10),
-            'tanggal_peminjaman' => $this->faker->date(),
-            'tanggal_pengembalian' => $this->faker->date()
+            'ulasan' => $this->faker->realText(),
+            'rating' => mt_rand(1,10),
         ];
     }
 }
