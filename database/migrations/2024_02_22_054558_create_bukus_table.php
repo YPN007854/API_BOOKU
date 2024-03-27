@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('penulis');
             $table->string('penerbit');
             $table->integer('tahun_terbit');
+            $table->longText('cover')->default('NONE');
+            $table->enum('status',['dipinjam','tersedia'])->default('tersedia');
             $table->timestamps();
         });
     }

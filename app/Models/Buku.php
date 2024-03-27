@@ -14,11 +14,20 @@ class Buku extends Model
     protected $guarded = ['bukuid'];
     protected $table = 'bukus';
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'koleksi_pribadis', 'bukuid', 'userid')
+                    ->withPivot('tanggal_peminjaman', 'tanggal_pengembalian')
+                    ->withTimestamps();
+    }
+
     protected $fillable = [
         'judul_buku',
         'penulis',
         'penerbit',
-        'tahun_terbit'
+        'tahun_terbit',
+        'cover',
+        'status'
     ];
 
     public function koleksi_pribadis(): HasMany
@@ -28,7 +37,7 @@ class Buku extends Model
 
     public function peminjamans(): HasMany
     {
-        return $this->hasMany(Peminjaman::class);
+        return $this->hasMany(Peminjaman::class, 'peminjamanid');
     }
 
     public function kategori_bukus(): HasMany

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('Password');
             $table->string('NamaLengkap');
             $table->text('Alamat');
+            $table->enum('role', ['admin', 'petugas', 'anggota']);
             $table->timestamps();
         }); 
     }

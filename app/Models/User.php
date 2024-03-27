@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -22,6 +22,13 @@ class User extends Authenticatable
     protected $primaryKey = 'UserID';
     protected $guarded = ['UserID'];
     protected $table = 'users';
+
+    // public function bukus()
+    // {
+    //     return $this->belongsToMany(Buku::class, 'koleksi_pribadis', 'userid', 'bukuid')
+    //                 ->withPivot('tanggal_peminjaman', 'tanggal_pengembalian')
+    //                 ->withTimestamps();
+    // }
 
     protected $fillable = [
         'Username',

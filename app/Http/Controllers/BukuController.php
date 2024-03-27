@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Buku;
 use App\Http\Requests\StoreBukuRequest;
 use App\Http\Requests\UpdateBukuRequest;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -32,15 +33,34 @@ class BukuController extends Controller
             "penulis" => "required",
             "penerbit" => "required",
             "tahun_terbit" => "required",
+            "cover" => "required",
 
         ]);
+        if ($request->hasFile('cover')) {
+            if($request->file('cover')->isValid()) {
+                try {
+                    $file = $request->file('cover');
+                    $image = base64_encode(file_get_contents($file));
+                    $buku['cover'] = $image;
+    
+    
+                } catch (Exception $e) {
+                    return response()->json([
+                        'error'=> $e->getMessage()
+                    ]);
+    
+                }
+            }
+        }
         $newbuku = Buku::create($buku);
         $res = [
             'message' => 'succes create data',
             'data' => $newbuku
         ];
         return response()->json($res);
+
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -52,7 +72,7 @@ class BukuController extends Controller
     public function show(Buku $buku)
     {
         {
-            $buku = Buku::all()->find($buku->bukuid);
+            $buku = Buku::with(['peminjamans'])->get()->find($buku->bukuid);
             $res = [
                 'data' => $buku
             ];
@@ -79,7 +99,9 @@ class BukuController extends Controller
                 "judul_buku" => "string",
                 "penulis" => "string",
                 "penerbit" => "string",
-                "tahun_terbit" => "string"
+                "tahun_terbit" => "string",
+                "cover" => "string",
+                
             ]);
     
             Buku::where('bukuid', $id)->update($data);
@@ -103,7 +125,7 @@ class BukuController extends Controller
     {
         Buku::where('bukuid', $id)->delete();
         return response()->json([
-            'message' => "Delete user successfully",
+            'message' => "Delete buku successfully",
         ]);
     }
 }

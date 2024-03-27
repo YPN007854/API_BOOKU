@@ -14,50 +14,27 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $data = $request->validate([
-            'Email' => 'required',
-            'Password' => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
-
-        $user = User::where('Email', $data['Email'])->first();
-
-        if ($data['Email'] && Hash::check($data['Password'], $user->Password)) {
+    
+        $user = User::where('Email', $data['email'])->first();
+        if ($user && Hash::check($data['password'], $user->Password)) {
             // $request->session()->regenerate();
-
+            $token = $user->createToken('Personal Token')->accessToken;
+        
             return response()->json([
-                "message" => "Login Successfully",
-                'data' => $data
+                'message' => 'Login Successfully',
+                'data' => $user,
+                'token' => $token,
             ], 200);
         }
-
-
+    
         throw ValidationException::withMessages([
             'email' => ['Kredensial yang diberikan tidak cocok dengan catatan kami.'],
         ]);
-
-        // try {
-        //     $credentials = $request->validate([
-        //         'Email' => 'required',
-        //         'Password' => 'required',
-        //     ]);
-
-        //     if (Auth::attempt($credentials)) {
-        //         $request->session()->regenerate();
-
-        //         return response()->json([
-        //             "message" => "Login Successfully",
-        //             'data' => $credentials
-        //         ], 200);
-        //     }
-
-        //     return response()->json([
-        //         'message' => 'Authentication failed'
-        //     ], 401);
-        // } catch (Exception $e) {
-        //     return response()->json([
-        //         'error' => $e->getMessage(),
-        //     ], 400);
-        // }
     }
+    
 
 
     public function register(Request $request)
